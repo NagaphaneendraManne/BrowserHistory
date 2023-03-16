@@ -1,7 +1,8 @@
 import './App.css'
+
 import {Component} from 'react'
 
-import BrowserHistory from './Components/BrowserHistory'
+import BrowserHistory from './Components/BrowserHistory/index'
 
 // These are the list used in the application. You can move them to any component needed.
 const initialHistoryList = [
@@ -87,9 +88,11 @@ class App extends Component {
     this.setState({searchInput: event.target.value})
   }
 
-  onDeleteHistory = id => {
+  onDeleteHistoryItem = id => {
     const {historyDetailsList} = this.state
-    const filterHistoryData = historyDetailsList.filter(each => each.id !== id)
+    const filterHistoryData = historyDetailsList.filter(
+      eachHistoryItem => eachHistoryItem.id !== id,
+    )
     this.setState({
       historyDetailsList: filterHistoryData,
     })
@@ -97,35 +100,51 @@ class App extends Component {
 
   render() {
     const {searchInput, historyDetailsList} = this.state
-    const searchResults = historyDetailsList.filter(each =>
-      each.title.toLowerCase().includes(each.searchInput.toLowerCase()),
+    const searchResults = historyDetailsList.filter(eachHistoryItem =>
+      eachHistoryItem.title.includes(searchInput),
     )
 
     return (
       <div className="app-container">
-        <div className="history-search-container">
-          <div className="search-container">
+        <div className="navbar-container">
+          <div className="logo-container">
             <img
               src="https://assets.ccbp.in/frontend/react-js/history-website-logo-img.png"
               alt="app logo"
-              className="app-logo"
+              className="history-img"
             />
-            <input
-              type="search"
-              className="search"
-              value={searchInput}
-              onChange={this.onChangeSearchInput}
-            />
-            <ul className="list-container">
-              {searchResults.map(each => (
+            <div className="input-search-container">
+              <div className="search-logo-container">
+                <img
+                  src="https://assets.ccbp.in/frontend/react-js/search-img.png"
+                  alt="search icon"
+                  className="search-icon"
+                />
+              </div>
+              <input
+                type="search"
+                className="search-input"
+                placeholder="Search history"
+                onChange={this.onChangeSearchInput}
+                value={searchInput}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="history-list-container">
+          {searchResults.length > 0 ? (
+            <ul className="history-list">
+              {searchResults.map(eachHistoryItem => (
                 <BrowserHistory
-                  onDeleteHistory={this.onDeleteHistory}
-                  historyDetails={each}
-                  key={each.id}
+                  historyDetails={eachHistoryItem}
+                  key={eachHistoryItem.id}
+                  onDeleteHistoryItem={this.onDeleteHistoryItem}
                 />
               ))}
             </ul>
-          </div>
+          ) : (
+            <p className="Empty-history-message">There is no history to show</p>
+          )}
         </div>
       </div>
     )

@@ -1,25 +1,39 @@
 import './index.css'
 
 const BrowserHistory = props => {
-  const {historyDetails} = props
-  const {id, timeAccessed, logoUrl, title, domainUrl} = historyDetails
+  const {historyDetails, onDeleteHistoryItem} = props
+  const {timeAccessed, logoUrl, title, domainUrl, id} = historyDetails
   const onDelete = () => {
-    onDeleteHistory(id)
+    onDeleteHistoryItem(id)
   }
 
   return (
-    <li className="list-container">
-      <p className="timezone">{timeAccessed}</p>
-      <img src={logoUrl} alt="app logo" className="logo" />
-      <h1 className="website-name">{title}</h1>
-      <p className="domain-name">{domainUrl}</p>
-      <button className="button" type="button" onClick={onDelete}>
-        <img
-          src="https://assets.ccbp.in/frontend/react-js/delete-img.png"
-          alt="delete"
+    <li className="history-list-item">
+      <div className="time-container">
+        <p className="browsing-time">{timeAccessed}</p>
+        <div className="history-content-container">
+          <img src={logoUrl} alt="domain logo" className="logo-image" />
+          <div className="content-card">
+            <p className="browser-title">{title}</p>
+            <p className="history-url">{domainUrl}</p>
+          </div>
+        </div>
+      </div>
+      <div className="history-delete-container">
+        <button
+          type="button"
           className="delete-button"
-        />
-      </button>
+          onClick={onDelete}
+          // eslint-disable-next-line react/no-unknown-property
+          testid="delete"
+        >
+          <img
+            src="https://assets.ccbp.in/frontend/react-js/delete-img.png"
+            alt="delete"
+            className="browser-delete-icon"
+          />
+        </button>
+      </div>
     </li>
   )
 }
