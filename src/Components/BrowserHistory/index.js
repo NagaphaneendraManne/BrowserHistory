@@ -25,7 +25,7 @@ const BrowserHistory = props => {
           className="delete-button"
           onClick={onDelete}
           // eslint-disable-next-line react/no-unknown-property
-          testid="delete"
+          data-testid="delete"
         >
           <img
             src="https://assets.ccbp.in/frontend/react-js/delete-img.png"
